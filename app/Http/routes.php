@@ -1,5 +1,5 @@
 <?php
-
+use App\User;
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -18,3 +18,19 @@ Route::get('/', function () {
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
+
+
+// Route::get('/user/{id}/role', function(int $id){
+
+//     $user = User::findOrFail($id);
+//     return $user->role->name;
+    
+// });
+
+Route::get('/admin', function(){
+
+    return view('admin.index');
+});
+
+
+Route::resource('/admin/users', 'AdminUsersController');
