@@ -12,6 +12,8 @@ use App\Role;
 
 use App\User;
 
+use App\Photo;
+
 class AdminUsersController extends Controller
 {
     /**
@@ -47,11 +49,23 @@ class AdminUsersController extends Controller
     {
         // $inputs = $request->all();
         // if($file = $request->file('photo')){
-        //     $name = getClientOriginalName($file);
+        //     $name = $file->getClientOriginalName();
         //     $file->move('images/users', $name);
         // }
         // return  $request->all();
-        User::create($request->all());
+
+        $inputs = $request->all();
+        if($file = $request->file('photo_id')){
+
+            $name = time() . $file->getClientOriginalName();
+            $file->move('images/users', $name);
+            $photo = Photo::create(['name' => $name]);
+            $inputs['photo_id'] = $photo->id;
+
+        }
+
+        $inputs['password'] = bcrypt($request->password);
+        User::create($inputs);
 
         return redirect('admin/users');
     }
