@@ -1,7 +1,42 @@
 @extends('layouts.admin')
 
 @section('content')
-    <h1>User</h1>
+{{-- FEEDBACK SECTION START --}}
+    @if (session()->has('user_delete'))
+    
+        <div class="alert alert-danger alert-dismissible show" role="alert">
+            <strong>{{session('user_delete')}}</strong>
+
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        
+    @elseif(session()->has('user_update'))
+
+        <div class="alert alert-info alert-dismissible show" role="alert">
+            <strong>{{session('user_update')}}</strong>
+
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+    @elseif(session()->has('user_create'))
+
+        <div class="alert alert-success alert-dismissible show" role="alert">
+            <strong>{{session('user_create')}}</strong>
+
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+    @endif
+
+    {{-- FEEDBACK SECTION END --}}
+
+    <h1>Users</h1>
 
     <table class="table">
         <thead>
@@ -28,7 +63,7 @@
                     <td>{{$user->role->name}}</td>
                     <td>{{$user->is_active ? "Active" : "None-Active"}}</td>
                     <td>{{$user->created_at->diffForHumans()}}</td>
-                    <td>{{$user->updated_at->subDays(1)->diffForHumans()}}</td>
+                    <td>{{$user->updated_at->subDays(0)->diffForHumans()}}</td>
                 </tr>
                 @endforeach
             @endif

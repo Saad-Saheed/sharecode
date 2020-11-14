@@ -5,7 +5,8 @@
  */
 
 body {
-    padding-top: 70px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+    /* padding-top: 70px; */
+     /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
 }
 
 footer {
@@ -8702,7 +8703,7 @@ table.dataTable thead .sorting:after {
 .dropdown-user {
     margin: 13px 0;
     padding: 5px;
-    height: 100%;
+    height: auto;
 }
 
 .dropdown-user:hover {

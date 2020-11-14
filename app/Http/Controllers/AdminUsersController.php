@@ -8,6 +8,7 @@ use App\Http\Requests;
 
 use App\Http\Requests\UsersRequest;
 use App\Http\Requests\UsersEditRequest;
+use Illuminate\Support\Facades\Session;
 
 use App\Role;
 
@@ -66,8 +67,17 @@ class AdminUsersController extends Controller
             $inputs['photo_id'] = $photo->id;
 
         }
-        
+
         User::create($inputs);
+
+         // using session class
+         Session::flash('user_create', 'user has created Successfully');
+
+         // using global session
+         // session(['user_delete'=>'user has been deleted Successfully']);
+ 
+         // using request or local session
+         // $request->session()->flash(['user_delete'=>'user has been deleted Successfully']);
 
         return redirect('admin/users');
     }
@@ -131,6 +141,15 @@ class AdminUsersController extends Controller
 
         $user->update($inputs);
 
+         // using session class
+        //  Session::flash('user_delete', 'user has been deleted Successfully');
+
+         // using global session
+         // session(['user_delete'=>'user has been deleted Successfully']);
+ 
+        //  using request or local session
+         $request->session()->flash('user_update', 'user has been updated Successfully');
+
         return redirect('admin/users');
     }
 
@@ -140,8 +159,27 @@ class AdminUsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        $photo_name = $user->photo->name;
+        // remove the leading "/" from path method
+        $path = str_replace_first('/', '', $user->path());
+        // remove this user picture
+        unlink($path . $photo_name);
+        
+        $user->delete();
+        
+        // using session class
+        Session::flash('user_delete', 'user has been deleted Successfully');
+
+        // using global session
+        // session(['user_delete'=>'user has been deleted Successfully']);
+
+        // using request or local session
+        // $request->session()->flash(['user_delete'=>'user has been deleted Successfully']);
+
+        return redirect('/admin/users');
     }
 }

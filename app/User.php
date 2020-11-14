@@ -38,13 +38,23 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Photo');
     }
+
     public function path()
     {
         return '/images/users/';
     }
 
-    public function isAdminActive($admin, $status)
+    public function isAdminActive($admin_role)
     {
-       $this->auth;
+       if ($this->role->name == $admin_role && $this->is_active) {
+             return true;
+       } 
+
+       return false;
+    }
+
+    public function posts()
+    {
+        return $this->hasMany('App\Post');
     }
 }
